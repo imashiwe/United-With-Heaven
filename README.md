@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# United With Heaven
+
+Official website for **United With Heaven**, a prophetic ministry of worship, written revelation, and anointed teaching founded by Imashi Wetakepotha.
+
+Built with Next.js 16, Tailwind CSS v4, and Framer Motion. All content is managed from a single file — no CMS or database required.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| Styling | Tailwind CSS v4 |
+| Animation | Framer Motion |
+| Forms | React Hook Form |
+| Icons | React Icons |
+| Fonts | Cormorant Garamond · Lora · Jost (via `next/font`) |
+| Deployment | Vercel |
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Site runs at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build   # production build
+npm run start   # serve production build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Updating Content
 
-To learn more about Next.js, take a look at the following resources:
+All site content — songs, books, messages, testimonials, weekly scripture, and hero scriptures — lives in one file:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+content.ts
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Edit the exported arrays in that file. The site hot-reloads instantly in development. On Vercel, push to `main` to deploy.
 
-## Deploy on Vercel
+**To add a new song:** copy an existing entry in the `songs` array, paste it below, and fill in the details. The first song in the array is always shown as the featured song.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**To update the Word of the Week:** change `wordOfTheWeek.verse` and `wordOfTheWeek.reference`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Pages
+
+| Route | Description |
+|---|---|
+| `/` | Full landing page — all sections |
+| `/music` | Songs library |
+| `/books` | Books with full descriptions |
+| `/messages` | Paginated messages with category filter |
+| `/about` | About Imashi |
+| `/events` | Upcoming events |
+| `/prayer` | Dedicated prayer request page |
+
+---
+
+## Prayer Request Form
+
+The form at `/prayer` posts to `app/api/prayer/route.ts`. Currently it logs submissions to the console. To send real emails, wire in a [Resend](https://resend.com) API key:
+
+1. Add `RESEND_API_KEY` and `PRAYER_REQUEST_EMAIL` to your Vercel environment variables
+2. Update `app/api/prayer/route.ts` to call the Resend SDK
+
+---
+
+## Images
+
+Place images in `public/images/`. The two key images the site expects:
+
+| File | Used in |
+|---|---|
+| `public/images/open doors.jpg` | Hero section background |
+| `public/images/imashi_portrait.png` | Founder section hover portrait |
+
+If either image is missing, the hero falls back to a gold radial gradient.
+
+---
+
+## Deployment (Vercel)
+
+1. Push this repo to GitHub
+2. Import the repo at [vercel.com](https://vercel.com)
+3. No environment variables are required for the base site (add `RESEND_API_KEY` when enabling email)
+4. Every push to `main` auto-deploys
